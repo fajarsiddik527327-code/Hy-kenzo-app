@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JB Store - Dashboard Interaktif</title>
+    <title>JB Store - Sistem Konfirmasi Admin</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -11,7 +11,6 @@
             font-family: 'Inter', sans-serif;
             background-color: #f3f4f6;
         }
-        /* Membatasi tampilan agar mirip layar HP di desktop */
         .mobile-container {
             max-width: 480px;
             min-height: 100vh;
@@ -19,7 +18,7 @@
             background-color: #ffffff;
             box-shadow: 0 0 20px rgba(0,0,0,0.05);
             position: relative;
-            padding-bottom: 80px; /* Jarak untuk bottom nav */
+            padding-bottom: 80px;
         }
     </style>
 </head>
@@ -38,8 +37,8 @@
                     <h4 class="text-sm font-semibold truncate w-48">user.pelanggan@gmail.com</h4>
                 </div>
             </div>
-            <button class="bg-white/20 hover:bg-white/30 text-xs px-3 py-1.5 rounded-full transition border border-white/10">
-                <i class="fa-solid fa-crown text-yellow-300 mr-1"></i> VIP
+            <button onclick="loginAdmin()" class="bg-white/10 hover:bg-white/20 text-[11px] px-3 py-1.5 rounded-full transition border border-white/10">
+                <i class="fa-solid fa-lock mr-1"></i> Admin
             </button>
         </div>
     </div>
@@ -57,62 +56,66 @@
                     <span id="saldo-display" class="text-xl font-extrabold text-gray-800">0</span>
                 </div>
             </div>
-            <a href="https://wa.me/6283121940097?text=Halo%20Admin,%20saya%20mau%20bertransaksi" target="_blank" class="bg-emerald-500 text-white p-4 rounded-2xl shadow-sm hover:bg-emerald-600 transition flex flex-col justify-between">
+            <a href="https://wa.me/6283121940097" target="_blank" class="bg-emerald-500 text-white p-4 rounded-2xl shadow-sm hover:bg-emerald-600 transition flex flex-col justify-between">
                 <div class="flex items-center justify-between text-xs text-emerald-100">
                     <span>Hubungi Kami</span>
                     <i class="fa-brands fa-whatsapp text-xl"></i>
                 </div>
                 <div class="mt-2">
-                    <p class="text-sm font-bold leading-tight">Chat Admin Fast Respon</p>
+                    <p class="text-sm font-bold leading-tight">Chat Admin (083121940097)</p>
                 </div>
             </a>
         </div>
 
-        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-            <button onclick="toggleAdminStatus()" class="w-full px-4 py-3 flex items-center justify-between bg-gray-50 hover:bg-gray-100/70 transition">
-                <div class="flex items-center space-x-2 text-gray-700 font-medium text-sm">
-                    <i class="fa-solid fa-circle-check text-blue-500"></i>
-                    <span>Cek Status Online Admin</span>
-                </div>
-                <i id="arrow-icon" class="fa-solid fa-chevron-down text-gray-400 text-xs transition-transform duration-200"></i>
-            </button>
-            
-            <div id="admin-list" class="divide-y divide-gray-100 px-4 py-1 hidden">
-                <div class="flex items-center justify-between py-3">
-                    <div class="flex items-center space-x-3">
-                        <div class="w-9 h-9 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 font-bold text-sm">A1</div>
-                        <div>
-                            <h5 class="text-xs font-bold text-gray-800">Admin Utama</h5>
-                            <p class="text-[10px] text-gray-400">Rekber / Jual-Beli</p>
-                        </div>
-                    </div>
-                    <span class="inline-flex items-center bg-emerald-50 text-emerald-600 text-[10px] font-bold px-2 py-1 rounded-full">
-                        <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full mr-1.5 animate-pulse"></span> Online
-                    </span>
-                </div>
-                <div class="flex items-center justify-between py-3">
-                    <div class="flex items-center space-x-3">
-                        <div class="w-9 h-9 bg-purple-100 rounded-xl flex items-center justify-center text-purple-600 font-bold text-sm">A2</div>
-                        <div>
-                            <h5 class="text-xs font-bold text-gray-800">Admin Support</h5>
-                            <p class="text-[10px] text-gray-400">Jaspuh & OTP Bot</p>
-                        </div>
-                    </div>
-                    <span class="inline-flex items-center bg-amber-50 text-amber-600 text-[10px] font-bold px-2 py-1 rounded-full">
-                        <span class="w-1.5 h-1.5 bg-amber-500 rounded-full mr-1.5"></span> Istirahat
-                    </span>
-                </div>
+        <div id="topup-modal" class="hidden bg-gray-50 border border-gray-200 p-4 rounded-2xl shadow-inner space-y-3">
+            <div class="flex justify-between items-center">
+                <h3 class="text-xs font-bold text-gray-700 uppercase"><i class="fa-solid fa-money-bill-wave mr-1 text-blue-500"></i> Kirim Bukti Transfer</h3>
+                <button onclick="tutupModalTopUp()" class="text-gray-400 text-xs font-bold">✕</button>
             </div>
+            
+            <div>
+                <label class="block text-[11px] font-bold text-gray-500 mb-1">Pilih Tujuan Payment:</label>
+                <select id="payment-method" class="w-full bg-white border border-gray-200 p-2 rounded-xl text-xs">
+                    <option value="DANA - 083121940097">DANA (083121940097)</option>
+                    <option value="QRIS / ALL PAYMENT">QRIS All Payment</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="block text-[11px] font-bold text-gray-500 mb-1">Nominal Yang Di-transfer (Rp):</label>
+                <input type="number" id="topup-amount" placeholder="Contoh: 20000" class="w-full bg-white border border-gray-200 p-2 rounded-xl text-xs focus:outline-none">
+            </div>
+
+            <div>
+                <label class="block text-[11px] font-bold text-gray-500 mb-1">Upload Bukti Transfer (Foto/Screenshot):</label>
+                <input type="file" id="topup-file" accept="image/*" class="w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"/>
+            </div>
+
+            <button onclick="submitRequestTopUp()" class="w-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2.5 rounded-xl shadow-sm transition">
+                Kirim Pembayaran Ke Admin
+            </button>
         </div>
 
+        <div id="admin-panel" class="hidden bg-slate-900 text-white p-4 rounded-2xl shadow-lg space-y-3 border-2 border-amber-500">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                <h3 class="text-xs font-bold text-amber-400 uppercase tracking-wider"><i class="fa-solid fa-user-shield mr-1"></i> Panel Konfirmasi Admin</h3>
+                <button onclick="logoutAdmin()" class="text-xs bg-red-600 px-2 py-0.5 rounded font-bold">Keluar</button>
+            </div>
+            
+            <p class="text-[10px] text-gray-400">Daftar permintaan top up pending dari pembeli:</p>
+            
+            <div id="admin-queue" class="space-y-3 max-h-60 overflow-y-auto">
+                <p class="text-xs text-gray-500 text-center py-4">Tidak ada data top up yang pending.</p>
+            </div>
+        </div>
         <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 grid grid-cols-4 gap-4 text-center">
-            <button onclick="handleTopUp()" class="flex flex-col items-center space-y-1.5 group">
+            <button onclick="bukaModalTopUp()" class="flex flex-col items-center space-y-1.5 group">
                 <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition shadow-sm">
                     <i class="fa-solid fa-plus-circle text-lg"></i>
                 </div>
                 <span class="text-xs font-medium text-gray-600">Top Up</span>
             </button>
-            <button onclick="alert('Fitur Rekber Otomatis Segera Hadir!')" class="flex flex-col items-center space-y-1.5 group">
+            <button onclick="alert('Fitur Rekber Segera Hadir!')" class="flex flex-col items-center space-y-1.5 group">
                 <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition shadow-sm">
                     <i class="fa-solid fa-handshake text-lg"></i>
                 </div>
@@ -124,7 +127,7 @@
                 </div>
                 <span class="text-xs font-medium text-gray-600">Riwayat</span>
             </button>
-            <button onclick="handleTopUp()" class="flex flex-col items-center space-y-1.5 group">
+            <button onclick="bukaModalTopUp()" class="flex flex-col items-center space-y-1.5 group">
                 <div class="w-12 h-12 bg-pink-50 text-pink-600 rounded-xl flex items-center justify-center group-hover:bg-pink-600 group-hover:text-white transition shadow-sm">
                     <i class="fa-solid fa-qrcode text-lg"></i>
                 </div>
@@ -132,25 +135,18 @@
             </button>
         </div>
 
-        <div class="relative">
-            <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <i class="fa-solid fa-magnifying-glass text-gray-400 text-sm"></i>
-            </span>
-            <input type="text" id="search-input" onkeyup="searchProduct()" class="w-full bg-white border border-gray-200 text-gray-800 placeholder-gray-400 text-sm rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:border-blue-500 shadow-sm transition" placeholder="Cari layanan produk..." />
-        </div>
-
-        <div class="bg-blue-50 border border-blue-100 rounded-xl p-3 flex items-start space-x-3">
-            <i class="fa-solid fa-bullhorn text-blue-500 mt-0.5"></i>
-            <p class="text-xs text-blue-700 leading-relaxed font-medium">
-                <strong>Informasi:</strong> Saldo di sini tersimpan otomatis. Tekan tombol <b>Top Up</b> untuk mengisi, atau tekan <b>Beli</b> untuk memotong saldo.
-            </p>
+        <div id="user-status-section" class="hidden bg-amber-50 border border-amber-200 rounded-xl p-3 space-y-1">
+            <div class="flex items-center text-amber-800 text-xs font-bold">
+                <i class="fa-solid fa-spinner animate-spin mr-1.5"></i>
+                <span>Status Top Up Anda: Sedang Ditinjau Admin</span>
+            </div>
+            <p class="text-[10px] text-amber-700 leading-tight">Mohon tunggu, admin sedang memverifikasi bukti transfer DANA Anda di mutasi rekening.</p>
         </div>
 
         <div class="space-y-2">
-            <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider pl-1">Layanan Tersedia</h3>
+            <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider pl-1">Layanan Store</h3>
             <div id="product-list" class="space-y-2">
-                
-                <div class="product-item bg-white p-3 rounded-xl border border-gray-100 flex items-center justify-between hover:border-blue-200 transition">
+                <div class="product-item bg-white p-3 rounded-xl border border-gray-100 flex items-center justify-between">
                     <div class="flex items-center space-x-3">
                         <div class="w-10 h-10 bg-orange-100 text-orange-600 rounded-lg flex items-center justify-center font-bold text-sm"><i class="fa-solid fa-mobile-screen"></i></div>
                         <div>
@@ -160,29 +156,6 @@
                     </div>
                     <button onclick="prosesBeli('Nokos WhatsApp', 5000)" class="bg-blue-600 hover:bg-blue-700 text-white text-[10px] font-bold px-3 py-1.5 rounded-lg transition">Beli</button>
                 </div>
-                
-                <div class="product-item bg-white p-3 rounded-xl border border-gray-100 flex items-center justify-between hover:border-blue-200 transition">
-                    <div class="flex items-center space-x-3">
-                        <div class="w-10 h-10 bg-indigo-100 text-indigo-600 rounded-lg flex items-center justify-center font-bold text-sm"><i class="fa-solid fa-bolt"></i></div>
-                        <div>
-                            <h4 class="text-xs font-bold text-gray-800">Jaspuh Bot Telegram</h4>
-                            <p class="text-[10px] text-gray-400">Harga: <span class="font-bold text-blue-600">Rp 25.000</span></p>
-                        </div>
-                    </div>
-                    <button onclick="prosesBeli('Jaspuh Bot Telegram', 25000)" class="bg-blue-600 hover:bg-blue-700 text-white text-[10px] font-bold px-3 py-1.5 rounded-lg transition">Order</button>
-                </div>
-
-                <div class="product-item bg-white p-3 rounded-xl border border-gray-100 flex items-center justify-between hover:border-blue-200 transition">
-                    <div class="flex items-center space-x-3">
-                        <div class="w-10 h-10 bg-purple-100 text-purple-600 rounded-lg flex items-center justify-center font-bold text-sm"><i class="fa-solid fa-server"></i></div>
-                        <div>
-                            <h4 class="text-xs font-bold text-gray-800">Sewa Panel Pterodactyl</h4>
-                            <p class="text-[10px] text-gray-400">Harga: <span class="font-bold text-blue-600">Rp 15.000</span></p>
-                        </div>
-                    </div>
-                    <button onclick="prosesBeli('Sewa Panel Pterodactyl', 15000)" class="bg-blue-600 hover:bg-blue-700 text-white text-[10px] font-bold px-3 py-1.5 rounded-lg transition">Order</button>
-                </div>
-
             </div>
         </div>
 
@@ -193,111 +166,179 @@
             <i class="fa-solid fa-house text-lg"></i>
             <span class="text-[10px] font-bold">Home</span>
         </button>
-        <button onclick="alert('Layanan Produk lengkap sedang dimuat!')" class="flex flex-col items-center space-y-0.5 text-gray-400 hover:text-gray-600 flex-1">
+        <button onclick="alert('Layanan Produk')" class="flex flex-col items-center space-y-0.5 text-gray-400 flex-1">
             <i class="fa-solid fa-layer-group text-lg"></i>
             <span class="text-[10px] font-medium">Layanan</span>
         </button>
-        <button onclick="window.open('https://wa.me/6283121940097')" class="flex flex-col items-center space-y-0.5 text-gray-400 hover:text-gray-600 flex-1">
+        <button onclick="window.open('https://wa.me/6283121940097')" class="flex flex-col items-center space-y-0.5 text-gray-400 flex-1">
             <i class="fa-solid fa-envelope text-lg"></i>
             <span class="text-[10px] font-medium">Pesan</span>
-        </button>
-        <button onclick="alert('Pengaturan Akun Pelanggan')" class="flex flex-col items-center space-y-0.5 text-gray-400 hover:text-gray-600 flex-1">
-            <i class="fa-solid fa-user-gear text-lg"></i>
-            <span class="text-[10px] font-medium">Akun</span>
         </button>
     </div>
 
 </div>
 
 <script>
-    // Mengambil data saldo awal dari LocalStorage agar data tidak hilang saat refresh.
-    // Jika data kosong, default diatur ke Rp 0 terlebih dahulu.
-    let currentSaldo = localStorage.getItem('saldo_user') ? parseInt(localStorage.getItem('saldo_user')) : 0;
-    let riwayatTransaksi = localStorage.getItem('riwayat_user') ? JSON.parse(localStorage.getItem('riwayat_user')) : [];
+    // Inisialisasi Saldo & Antrean Request menggunakan LocalStorage (Simulasi Database Sementara)
+    let currentSaldo = localStorage.getItem('jb_saldo') ? parseInt(localStorage.getItem('jb_saldo')) : 0;
+    let riwayatTransaksi = localStorage.getItem('jb_riwayat') ? JSON.parse(localStorage.getItem('jb_riwayat')) : [];
+    let antreanTopup = localStorage.getItem('jb_antrean') ? JSON.parse(localStorage.getItem('jb_antrean')) : [];
 
-    // Tampilkan saldo terformat ke layar saat pertama kali web dibuka
-    updateSaldoUI();
+    updateUI();
 
-    function updateSaldoUI() {
+    function updateUI() {
         document.getElementById('saldo-display').innerText = currentSaldo.toLocaleString('id-ID');
-        localStorage.setItem('saldo_user', currentSaldo);
-        localStorage.setItem('riwayat_user', JSON.stringify(riwayatTransaksi));
+        localStorage.setItem('jb_saldo', currentSaldo);
+        localStorage.setItem('jb_riwayat', JSON.stringify(riwayatTransaksi));
+        localStorage.setItem('jb_antrean', JSON.stringify(antreanTopup));
+
+        // Tampilkan status pending bagi user jika ada antrean miliknya
+        const statusSeksi = document.getElementById('user-status-section');
+        if (antreanTopup.length > 0) {
+            statusSeksi.classList.remove('hidden');
+        } else {
+            statusSeksi.classList.add('hidden');
+        }
+
+        renderAdminQueue();
     }
 
-    // Fungsi Pengisian Saldo (Top Up)
-    function handleTopUp() {
-        let jumlahInput = prompt("Masukkan jumlah nominal Top Up (Contoh: 10000, 50000):", "20000");
-        
-        if (jumlahInput === null) return; // Jika membatalkan prompt
+    function bukaModalTopUp() { document.getElementById('topup-modal').classList.remove('hidden'); }
+    function tutupModalTopUp() { document.getElementById('topup-modal').classList.add('hidden'); }
 
-        let nominal = parseInt(jumlahInput);
+    // PEMBELI: Mengirim Request Top Up dan Mengunggah Bukti
+    function submitRequestTopUp() {
+        let payment = document.getElementById('payment-method').value;
+        let amount = document.getElementById('topup-amount').value;
+        let fileInput = document.getElementById('topup-file');
 
-        if (!isNaN(nominal) && nominal > 0) {
-            currentSaldo += nominal;
-            riwayatTransaksi.push(`Top up sukses: +Rp ${nominal.toLocaleString('id-ID')}`);
-            updateSaldoUI();
-            alert("✓ Top Up Berhasil!\nSaldo Anda bertambah Rp " + nominal.toLocaleString('id-ID'));
-        } else {
-            alert("❌ Pengisian dibatalkan. Masukkan angka nominal yang valid.");
+        if (!amount || amount <= 0) {
+            alert("❌ Harap masukkan nominal transfer yang benar!");
+            return;
+        }
+        if (fileInput.files.length === 0) {
+            alert("❌ Harap sertakan unggahan foto bukti transfer DANA/QRIS Anda!");
+            return;
+        }
+
+        let file = fileInput.files[0];
+        let reader = new FileReader();
+
+        reader.onloadend = function () {
+            // Mengubah gambar menjadi format Base64 string agar bisa disimpan di memory browser lokal
+            let gambarBukti = reader.result;
+
+            // Masukkan data ke antrean tunggu konfirmasi admin
+            let dataBaru = {
+                id: Date.now(),
+                metode: payment,
+                nominal: parseInt(amount),
+                bukti: gambarBukti
+            };
+
+            antreanTopup.push(dataBaru);
+            updateUI();
+
+            alert("✓ Berhasil Dikirim!\nPermintaan Anda sudah diteruskan ke antrean Admin. Saldo akan otomatis bertambah setelah admin mengonfirmasi bukti transfer Anda.");
+            
+            // Mengarahkan juga ke WhatsApp Anda sebagai notifikasi cadangan double validasi
+            let textWA = `Halo Admin, saya sudah kirim bukti transfer di web sebesar Rp ${parseInt(amount).toLocaleString('id-ID')} via ${payment}. Tolong dicek dan dikonfirmasi ya min!`;
+            window.open(`https://wa.me/6283121940097?text=${encodeURIComponent(textWA)}`, '_blank');
+
+            // Reset Form Input
+            document.getElementById('topup-amount').value = "";
+            fileInput.value = "";
+            tutupModalTopUp();
+        }
+
+        if (file) {
+            reader.readAsDataURL(file);
         }
     }
 
-    // Fungsi Pengurangan Saldo Saat Membeli Layanan
+    // ADMIN: Login Ke Panel Manajemen Menggunakan Password Rahasia
+    function loginAdmin() {
+        let pass = prompt("Masukkan Password Khusus Admin:");
+        if (pass === "admin123") { // Kamu bisa ganti password-nya di sini
+            document.getElementById('admin-panel').classList.remove('hidden');
+            alert("✓ Login Admin Berhasil! Silakan tinjau bukti transaksi di bawah ini.");
+        } else if (pass !== null) {
+            alert("❌ Password Salah! Akses ditolak.");
+        }
+    }
+
+    function logoutAdmin() {
+        document.getElementById('admin-panel').classList.add('hidden');
+    }
+
+    // ADMIN: Menampilkan list bukti transfer yang dikirim pembeli ke Panel Admin
+    function renderAdminQueue() {
+        const container = document.getElementById('admin-queue');
+        if (antreanTopup.length === 0) {
+            container.innerHTML = `<p class="text-xs text-gray-500 text-center py-4">Tidak ada data top up yang pending.</p>`;
+            return;
+        }
+
+        container.innerHTML = "";
+        antreanTopup.forEach((item, index) => {
+            container.innerHTML += `
+                <div class="bg-slate-800 p-3 rounded-xl space-y-2 border border-slate-700">
+                    <div class="flex justify-between items-center text-[11px]">
+                        <span class="text-amber-400 font-bold">${item.metode}</span>
+                        <span class="text-emerald-400 font-black">Rp ${item.nominal.toLocaleString('id-ID')}</span>
+                    </div>
+                    <div>
+                        <p class="text-[9px] text-gray-400 mb-1">Bukti Transfer Pembeli:</p>
+                        <img src="${item.bukti}" class="w-full h-auto rounded-lg border border-slate-600 max-h-40 object-contain bg-black" onclick="window.open(this.src)" title="Klik untuk perbesar">
+                    </div>
+                    <div class="flex space-x-2 pt-1">
+                        <button onclick="setujuiTopUp(${item.id}, ${item.nominal})" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[10px] py-1.5 rounded-lg transition">✓ Setujui (Isi Saldo)</button>
+                        <button onclick="tolakTopUp(${item.id})" class="bg-red-600 hover:bg-red-700 text-white font-bold text-[10px] px-2.5 py-1.5 rounded-lg transition">Tolak</button>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    // ADMIN: Klik Setujui -> Saldo Masuk Otomatis ke Akun Pembeli
+    function setujuiTopUp(id, nominal) {
+        currentSaldo += nominal; // Menambah saldo utama
+        riwayatTransaksi.push(`Top up dikonfirmasi Admin: +Rp ${nominal.toLocaleString('id-ID')}`);
+        
+        // Hapus dari daftar antrean tunggu
+        antreanTopup = antreanTopup.filter(x => x.id !== id);
+        updateUI();
+        alert("✓ Sukses! Pembayaran telah dikonfirmasi dan saldo berhasil dimasukkan ke akun pembeli.");
+    }
+
+    // ADMIN: Klik Tolak jika bukti transfer palsu/tidak valid
+    function tolakTopUp(id) {
+        if (confirm("Apakah Anda yakin ingin menolak transaksi ini?")) {
+            antreanTopup = antreanTopup.filter(x => x.id !== id);
+            updateUI();
+            alert("❌ Transaksi telah ditolak dan dihapus dari antrean.");
+        }
+    }
+
+    // PEMBELI: Memotong saldo saat belanja layanan
     function prosesBeli(namaProduk, harga) {
         if (currentSaldo >= harga) {
-            let konfirmasi = confirm(`Apakah Anda yakin ingin membeli ${namaProduk} seharga Rp ${harga.toLocaleString('id-ID')}?`);
-            
-            if (konfirmasi) {
-                currentSaldo -= harga; // Saldo otomatis berkurang
+            if (confirm(`Beli ${namaProduk} seharga Rp ${harga.toLocaleString('id-ID')}?`)) {
+                currentSaldo -= harga;
                 riwayatTransaksi.push(`Beli ${namaProduk}: -Rp ${harga.toLocaleString('id-ID')}`);
-                updateSaldoUI();
-                alert(`✓ Pembelian Sukses!\nAnda berhasil membeli ${namaProduk}.\nSisa saldo: Rp ${currentSaldo.toLocaleString('id-ID')}`);
+                updateUI();
+                alert(`✓ Sukses Membeli ${namaProduk}!`);
             }
         } else {
-            alert(`❌ Saldo Tidak Cukup!\nSaldo Anda saat ini Rp ${currentSaldo.toLocaleString('id-ID')}.\nSilakan klik menu Top Up untuk menambah saldo terlebih dahulu.`);
+            alert(`❌ Saldo Kurang!\nSilakan lakukan kirim bukti transfer via tombol Top Up.`);
         }
     }
 
-    // Fungsi Melihat Riwayat Transaksi Belanja / Top Up
     function lihatRiwayat() {
-        if (riwayatTransaksi.length === 0) {
-            alert("Belum ada riwayat transaksi saat ini.");
-        } else {
-            alert("--- RIWAYAT TRANSAKSI ANDA ---\n\n" + riwayatTransaksi.join("\n"));
-        }
-    }
-
-    // Fungsi Toggle Dropdown Status Admin
-    function toggleAdminStatus() {
-        const adminList = document.getElementById('admin-list');
-        const arrowIcon = document.getElementById('arrow-icon');
-        
-        if (adminList.classList.contains('hidden')) {
-            adminList.classList.remove('hidden');
-            arrowIcon.classList.add('rotate-180');
-        } else {
-            adminList.classList.add('hidden');
-            arrowIcon.classList.remove('rotate-180');
-        }
-    }
-
-    // Fungsi Real-time Search Filter Layanan
-    function searchProduct() {
-        const input = document.getElementById('search-input').value.toLowerCase();
-        const items = document.getElementsByClassName('product-item');
-        
-        for (let i = 0; i < items.length; i++) {
-            const title = items[i].querySelector('h4').innerText.toLowerCase();
-            
-            if (title.includes(input)) {
-                items[i].style.display = "flex";
-            } else {
-                items[i].style.display = "none";
-            }
-        }
+        alert(riwayatTransaksi.length === 0 ? "Belum ada riwayat." : "--- RIWAYAT TRANSAKSI ---\n\n" + riwayatTransaksi.join("\n"));
     }
 </script>
 
 </body>
     </html>
-                                
+                        
