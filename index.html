@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JB Store - Dashboard Pembeli</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+        /* Membatasi tampilan agar mirip layar HP di desktop */
+        .mobile-container {
+            max-width: 480px;
+            min-height: 100vh;
+            margin: 0 auto;
+            background-color: #ffffff;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            position: relative;
+            padding-bottom: 80px; /* Jarak untuk bottom nav */
+        }
+    </style>
+</head>
+<body>
+
+<div class="mobile-container flex flex-col">
+
+    <div class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 pt-6 pb-20 rounded-b-[2.5rem] shadow-lg">
+        <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center border border-white/30">
+                    <i class="fa-solid fa-user text-xl"></i>
+                </div>
+                <div>
+                    <p class="text-xs text-blue-200">Selamat Datang</p>
+                    <h4 class="text-sm font-semibold truncate w-48">user.pelanggan@gmail.com</h4>
+                </div>
+            </div>
+            <button class="bg-white/20 hover:bg-white/30 text-xs px-3 py-1.5 rounded-full transition border border-white/10">
+                <i class="fa-solid fa-crown text-yellow-300 mr-1"></i> VIP
+            </button>
+        </div>
+    </div>
+
+    <div class="px-4 -mt-14 space-y-4 flex-1">
+        
+        <div class="grid grid-cols-2 gap-3">
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
+                <div class="flex items-center justify-between text-gray-400 text-xs">
+                    <span>Saldo Akun</span>
+                    <i class="fa-solid fa-wallet text-blue-500 text-base"></i>
+                </div>
+                <div class="mt-2">
+                    <span class="text-xs font-bold text-gray-500">Rp</span>
+                    <span class="text-xl font-extrabold text-gray-800">150.000</span>
+                </div>
+            </div>
+            <a href="https://wa.me/628xxxxxxxxxx" target="_blank" class="bg-emerald-500 text-white p-4 rounded-2xl shadow-sm hover:bg-emerald-600 transition flex flex-col justify-between">
+                <div class="flex items-center justify-between text-xs text-emerald-100">
+                    <span>Hubungi Kami</span>
+                    <i class="fa-brands fa-whatsapp text-xl"></i>
+                </div>
+                <div class="mt-2">
+                    <p class="text-sm font-bold leading-tight">Chat Admin Fast Respon</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+            <button onclick="toggleAdminStatus()" class="w-full px-4 py-3 flex items-center justify-between bg-gray-50 hover:bg-gray-100/70 transition">
+                <div class="flex items-center space-x-2 text-gray-700 font-medium text-sm">
+                    <i class="fa-solid fa-circle-check text-blue-500"></i>
+                    <span>Cek Status Online Admin</span>
+                </div>
+                <i id="arrow-icon" class="fa-solid fa-chevron-down text-gray-400 text-xs transition-transform duration-200"></i>
+            </button>
+            
+            <div id="admin-list" class="divide-y divide-gray-100 px-4 py-1 hidden">
+                <div class="flex items-center justify-between py-3">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-9 h-9 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 font-bold text-sm">A1</div>
+                        <div>
+                            <h5 class="text-xs font-bold text-gray-800">Admin Utama</h5>
+                            <p class="text-[10px] text-gray-400">Urusan Rekber / JB</p>
+                        </div>
+                    </div>
+                    <span class="inline-flex items-center bg-emerald-50 text-emerald-600 text-[10px] font-bold px-2 py-1 rounded-full">
+                        <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full mr-1.5 animate-pulse"></span> Online
+                    </span>
+                </div>
+                <div class="flex items-center justify-between py-3">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-9 h-9 bg-purple-100 rounded-xl flex items-center justify-center text-purple-600 font-bold text-sm">A2</div>
+                        <div>
+                            <h5 class="text-xs font-bold text-gray-800">Admin Support</h5>
+                            <p class="text-[10px] text-gray-400">Urusan Jaspuh & Bot</p>
+                        </div>
+                    </div>
+                    <span class="inline-flex items-center bg-amber-50 text-amber-600 text-[10px] font-bold px-2 py-1 rounded-full">
+                        <span class="w-1.5 h-1.5 bg-amber-500 rounded-full mr-1.5"></span> Istirahat
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 grid grid-cols-4 gap-4 text-center">
+            <button class="flex flex-col items-center space-y-1.5 group">
+                <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition shadow-sm">
+                    <i class="fa-solid fa-plus-circle text-lg"></i>
+                </div>
+                <span class="text-xs font-medium text-gray-600">Isi Saldo</span>
+            </button>
+            <button class="flex flex-col items-center space-y-1.5 group">
+                <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition shadow-sm">
+                    <i class="fa-solid fa-handshake text-lg"></i>
+                </div>
+                <span class="text-xs font-medium text-gray-600">Rekber</span>
+            </button>
+            <button class="flex flex-col items-center space-y-1.5 group">
+                <div class="w-12 h-12 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center group-hover:bg-purple-600 group-hover:text-white transition shadow-sm">
+                    <i class="fa-solid fa-history text-lg"></i>
+                </div>
+                <span class="text-xs font-medium text-gray-600">Riwayat</span>
+            </button>
+            <button class="flex flex-col items-center space-y-1.5 group">
+                <div class="w-12 h-12 bg-pink-50 text-pink-600 rounded-xl flex items-center justify-center group-hover:bg-pink-600 group-hover:text-white transition shadow-sm">
+                    <i class="fa-solid fa-qrcode text-lg"></i>
+                </div>
+                <span class="text-xs font-medium text-gray-600">Bayar QRIS</span>
+            </button>
+        </div>
+
+        <div class="relative">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <i class="fa-solid fa-magnifying-glass text-gray-400 text-sm"></i>
+            </span>
+            <input type="text" id="search-input" onkeyup="searchProduct()" class="w-full bg-white border border-gray-200 text-gray-800 placeholder-gray-400 text-sm rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:border-blue-500 shadow-sm transition" placeholder="Cari layanan (nokos, jaspuh, followers...)" />
+        </div>
+
+        <div class="bg-blue-50 border border-blue-100 rounded-xl p-3 flex items-start space-x-3">
+            <i class="fa-solid fa-bullhorn text-blue-500 mt-0.5"></i>
+            <p class="text-xs text-blue-700 leading-relaxed font-medium">
+                <strong>Informasi:</strong> Proses rekber wajib menggunakan grup resmi admin demi keamanan transaksi Anda!
+            </p>
+        </div>
+
+        <div class="space-y-2">
+            <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider pl-1">Layanan Populer</h3>
+            <div id="product-list" class="space-y-2">
+                <div class="product-item bg-white p-3 rounded-xl border border-gray-100 flex items-center justify-between hover:border-blue-200 transition">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-orange-100 text-orange-600 rounded-lg flex items-center justify-center font-bold text-sm"><i class="fa-solid fa-mobile-screen"></i></div>
+                        <div>
+                            <h4 class="text-xs font-bold text-gray-800">Nokos WhatsApp</h4>
+                            <p class="text-[10px] text-gray-400">Nomor Kosong Garansi OTP</p>
+                        </div>
+                    </div>
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white text-[10px] font-bold px-3 py-1.5 rounded-lg transition">Beli</button>
+                </div>
+                <div class="product-item bg-white p-3 rounded-xl border border-gray-100 flex items-center justify-between hover:border-blue-200 transition">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-indigo-100 text-indigo-600 rounded-lg flex items-center justify-center font-bold text-sm"><i class="fa-solid fa-bolt"></i></div>
+                        <div>
+                            <h4 class="text-xs font-bold text-gray-800">Jaspuh Pembuatan Bot</h4>
+                            <p class="text-[10px] text-gray-400">Telegram OTP / Panel Pterodactyl</p>
+                        </div>
+                    </div>
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white text-[10px] font-bold px-3 py-1.5 rounded-lg transition">Order</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-4 py-2 flex items-center justify-between text-center shadow-[0_-4px_10px_rgba(0,0,0,0.02)]">
+        <button class="flex flex-col items-center space-y-0.5 text-blue-600 flex-1">
+            <i class="fa-solid fa-house text-lg"></i>
+            <span class="text-[10px] font-bold">Home</span>
+        </button>
+        <button class="flex flex-col items-center space-y-0.5 text-gray-400 hover:text-gray-600 flex-1">
+            <i class="fa-solid fa-layer-group text-lg"></i>
+            <span class="text-[10px] font-medium">Layanan</span>
+        </button>
+        <button class="flex flex-col items-center space-y-0.5 text-gray-400 hover:text-gray-600 flex-1">
+            <i class="fa-solid fa-envelope text-lg"></i>
+            <span class="text-[10px] font-medium">Pesan</span>
+        </button>
+        <button class="flex flex-col items-center space-y-0.5 text-gray-400 hover:text-gray-600 flex-1">
+            <i class="fa-solid fa-user-gear text-lg"></i>
+            <span class="text-[10px] font-medium">Akun</span>
+        </button>
+    </div>
+
+</div>
+
+<script>
+    // Fungsi Toggle Buka Tutup Status Admin
+    function toggleAdminStatus() {
+        const adminList = document.getElementById('admin-list');
+        const arrowIcon = document.getElementById('arrow-icon');
+        
+        if (adminList.classList.contains('hidden')) {
+            adminList.classList.remove('hidden');
+            arrowIcon.classList.add('rotate-180');
+        } else {
+            adminList.classList.add('hidden');
+            arrowIcon.classList.remove('rotate-180');
+        }
+    }
+
+    // Fungsi Search Sederhana untuk Menu Produk
+    function searchProduct() {
+        const input = document.getElementById('search-input').value.toLowerCase();
+        const items = document.getElementsByClassName('product-item');
+        
+        for (let i = 0; i < items.length; i++) {
+            const title = items[i].querySelector('h4').innerText.toLowerCase();
+            const desc = items[i].querySelector('p').innerText.toLowerCase();
+            
+            if (title.includes(input) || desc.includes(input)) {
+                items[i].style.display = "flex";
+            } else {
+                items[i].style.display = "none";
+            }
+        }
+    }
+</script>
+
+</body>
+</html>
